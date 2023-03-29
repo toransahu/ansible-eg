@@ -78,6 +78,7 @@ vm01 | SUCCESS => {
 
 - [Creating a Playbook](https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html#get-started-playbook)
 - [Working with Playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html#working-with-playbooks)
+- [Reusing Playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html#re-using-playbooks)
 
 
 Playbooks are automation blueprints, in YAML format, that Ansible uses to deploy and configure managed nodes.
@@ -153,4 +154,9 @@ vm02: ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0  
 vm03: ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+## Role
 
+- [Role directory structure](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-directory-structure)
+- [Using Roles](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-directory-structure)
+    - Mentioning roles
+    - vs Dynamically including/improting roles (this is done through tasks)

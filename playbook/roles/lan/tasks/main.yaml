@@ -1,0 +1,6 @@
+- name: Ping my hosts
+  ansible.builtin.ping:
+
+- name: Print messsage
+  ansible.builtin.debug:
+      msg: Hello World
