@@ -160,3 +160,9 @@ vm03: ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0  
 - [Using Roles](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-directory-structure)
     - Mentioning roles
     - vs Dynamically including/improting roles (this is done through tasks)
+
+# References
+
+- [Basic Concepts](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)
+- [Playbook Keywords](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
+- [GCP Module](https://docs.ansible.com/ansible/latest/scenario_guides/guide_gce.html)
