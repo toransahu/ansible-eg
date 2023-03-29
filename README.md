@@ -33,6 +33,9 @@ Verify your inventory
 
 ```bash
 $ ansible-inventory -i inventory.yaml --list
+
+# if inventory organized in a directory called `inventory`
+$ ansible-inventory -i inventory/ --list
 ```
 
 
@@ -41,6 +44,9 @@ Ping the managed nodes in your inventory
 
 ```bash
 $ ansible mymachinesgroup -m ping -i inventory.yaml
+
+# if inventory organized in a directory called `inventory`
+$ ansible mymachinesgroup -m ping -i inventory/
 ```
 
 ```
@@ -111,7 +117,10 @@ playbook.yaml:
 Run your playbook:
 
 ```bash
-ansible-playbook -i inventory.yaml playbook.yaml
+$ ansible-playbook -i inventory.yaml playbook.yaml
+
+# if inventory & playbook is organized in a directory
+$ ansible-playbook -i inventory/ playbook/lan.yaml
 ```
 
 ```bash
