@@ -1,0 +1,42 @@
+
+---
+
+- name: Create IP address
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    gcp_project: ansible-eg
+    gcp_auth_kind: serviceaccount
+    gcp_service_account_file: "/Users/toran/Downloads/ansible-eg-3583f723f939.json"
+    zone: "us-west1"
+    region: "us-west1"
+    scopes:
+      - https://www.googleapis.com/auth/compute
+    machine_type: "n1-standard-1"
+    image: ""
+    gcs_bucket: "ansible-eg"
+    repo: "myrepo"
+
+  tasks:
+    # make sure the billing account is enabled & linked 
+    - name: Enable APIs/Services on the project
+      google.cloud.gcp_serviceusage_service:
+        state: present
+        name: "{{ item }}"
+        project: "{{ gcp_project }}"
+        auth_kind: "{{ gcp_auth_kind}}"
+        service_account_file: "{{ gcp_service_account_file }}"
+      loop:
+        - compute.googleapis.com
+
+    - name: Allocate an IP Address
+      gcp_compute_address:
+        state: present
+        name: 'test-address1'
+        region: "{{ region }}"
+        project: "{{ gcp_project }}"
+        auth_kind: "{{ gcp_auth_kind }}"
+        service_account_file: "{{ gcp_service_account_file }}"
+        scopes: "{{ scopes }}"
+

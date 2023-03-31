@@ -161,6 +161,23 @@ vm03: ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0  
     - Mentioning roles
     - vs Dynamically including/improting roles (this is done through tasks)
 
+# GCP
+
+```bash
+$ ansible-playbook -i inventory/ playbook/gcp.yml
+
+PLAY [Create IP address] *************************************************************
+
+TASK [Enable APIs/Services on the project] *******************************************
+changed: [localhost] => (item=compute.googleapis.com)
+
+TASK [Allocate an IP Address] ********************************************************
+changed: [localhost]
+
+PLAY RECAP ***************************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
 # References
 
 - [Basic Concepts](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)
