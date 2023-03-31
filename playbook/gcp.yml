@@ -1,22 +1,30 @@
 
 ---
 
-- name: Create IP address
+- name: Play with GCP resources
   hosts: localhost
   gather_facts: false
 
   vars:
-    gcp_project: ansible-eg
-    gcp_auth_kind: serviceaccount
-    gcp_service_account_file: "/Users/toran/Downloads/ansible-eg-3583f723f939.json"
-    zone: "us-west1"
-    region: "us-west1"
-    scopes:
-      - https://www.googleapis.com/auth/compute
-    machine_type: "n1-standard-1"
-    image: ""
-    gcs_bucket: "ansible-eg"
-    repo: "myrepo"
+
+    gcp:
+      project: ansible-eg
+      auth_kind: serviceaccount
+      service_account_file: "/Users/toran/Downloads/ansible-eg-3583f723f939.json"
+      region: "us-west1"
+      zone: "us-west1-a"
+      scopes:
+        - https://www.googleapis.com/auth/compute
+      machine_type: "n1-standard-1"
+
+    cloud_run_eg:
+      docker_image: ""
+      gcs_bucket: "ansible-eg"
+      gcs_repo: "myrepo"
+
+    cloud_scheduler:
+      scopes:
+        - https://www.googleapis.com/auth/cloud-platform
 
   tasks:
     # make sure the billing account is enabled & linked 
@@ -24,19 +32,19 @@
       google.cloud.gcp_serviceusage_service:
         state: present
         name: "{{ item }}"
-        project: "{{ gcp_project }}"
-        auth_kind: "{{ gcp_auth_kind}}"
-        service_account_file: "{{ gcp_service_account_file }}"
+        project: "{{ gcp.project }}"
+        auth_kind: "{{ gcp.auth_kind}}"
+        service_account_file: "{{ gcp.service_account_file }}"
       loop:
         - compute.googleapis.com
+        - run.googleapis.com
 
     - name: Allocate an IP Address
       gcp_compute_address:
         state: present
         name: 'test-address1'
-        region: "{{ region }}"
-        project: "{{ gcp_project }}"
-        auth_kind: "{{ gcp_auth_kind }}"
-        service_account_file: "{{ gcp_service_account_file }}"
-        scopes: "{{ scopes }}"
-
+        region: "{{ gcp.region }}"
+        project: "{{ gcp.project }}"
+        auth_kind: "{{ gcp.auth_kind }}"
+        service_account_file: "{{ gcp.service_account_file }}"
+        scopes: "{{ gcp.scopes }}"
