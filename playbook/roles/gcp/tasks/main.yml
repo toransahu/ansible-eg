@@ -2,3 +2,6 @@
 
 - name: GCP Sample
   import_tasks: sample.yml
+
+- name: Deploy cloudrun job
+  import_tasks: cloudrun_job.yml
