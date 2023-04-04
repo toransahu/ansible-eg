@@ -178,6 +178,12 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
+
+# FAQ
+
+- command vs shell
+    - https://www.ansiblepilot.com/articles/ansible-modules-command-vs-shell/
+
 # References
 
 - [Basic Concepts](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)
