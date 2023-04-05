@@ -1,10 +1,12 @@
-# make sure the billing account is enabled & linked 
+---
+
+# make sure the billing account is enabled & linked
 - name: Enable APIs/Services on the project
   google.cloud.gcp_serviceusage_service:
     state: present
     name: "{{ item }}"
     project: "{{ gcp.project }}"
-    auth_kind: "{{ gcp.auth_kind}}"
+    auth_kind: "{{ gcp.auth_kind }}"
     service_account_file: "{{ gcp.service_account_file }}"
   loop:
     - compute.googleapis.com
@@ -22,7 +24,7 @@
     cloudrun_sa_user: "cloudrun"
     cloudrun_job_role: "cloudrunExecutor"
     cloudrun_job_id: "test-cloudrun-job"
-  set_fact:
+  ansible.builtin.set_fact:
     sa_key_secret_name: "{{ sa_key_secret_name }}"
     cloudrun_sa_user: "{{ cloudrun_sa_user }}{{ version }}"
     cloudrun_sa_id: "{{ cloudrun_sa_user }}{{ version }}@{{ gcp.project }}.iam.gserviceaccount.com"
@@ -30,15 +32,16 @@
     cloudrun_job_id: "{{ cloudrun_job_id }}{{ version }}"
 
 - name: Check if cloudrun SA key is already in GSM
-  shell: |
+  ansible.builtin.shell: |
     gcloud secrets versions list mysecret \
     --project={{ gcp.project }} \
     --limit=1 > /dev/null 2>&1
     echo checked
   register: cloudrun_sa_key_secret
+  changed_when: "'checked' in cloudrun_sa_key_secret.stdout"
 
 - name: Create cloudrun service account if not already exists
-  shell: |
+  ansible.builtin.shell: |
     if ! gcloud iam service-accounts describe --project "{{ gcp.project }}" "{{ cloudrun_sa_id }}" > /dev/null 2>&1; then
       gcloud iam service-accounts create "{{ cloudrun_sa_user }}" \
         --description "Service Account with permission to execute cloudrun jobs" \
@@ -50,7 +53,7 @@
   changed_when: "'service account created' in create_sa_result.stdout"
 
 - name: Create a role for cloudrun service account if not already exists
-  shell: |
+  ansible.builtin.shell: |
     if ! gcloud iam roles describe {{ cloudrun_job_role }} --project ansible-eg > /dev/null 2>&1; then
       gcloud iam roles create {{ cloudrun_job_role }} \
       --title={{ cloudrun_job_role }} \
@@ -66,17 +69,19 @@
   changed_when: "'role created' in create_cloudrun_job_role_res.stdout"
 
 - name: Grant cloudrun service account required roles
-  command: >
+  ansible.builtin.command: >
     gcloud projects add-iam-policy-binding {{ gcp.project }} \
       --member=serviceAccount:{{ cloudrun_sa_id }} \
       --role projects/{{ gcp.project }}/roles/{{ cloudrun_job_role }}
-  # shell: |
+  # ansible.builtin.shell: |
   #     gcloud iam service-account add-iam-policy-binding {{ cloudrun_sa_id }} \
   #     --member=serviceAccount:{{ cloudrun_sa_id }} \
   #     --role projects/{{ gcp.project }}/roles/{{ cloudrun_job_role }}
+  register: grant_cloudrun_sa_role_res
+  changed_when: "'Updated IAM policy' in grant_cloudrun_sa_role_res.stdout"
 
 - name: Create Cloud Run Job if not already exists
-  shell: |
+  ansible.builtin.shell: |
     if ! gcloud beta run jobs describe {{ cloudrun_job_id }} --project {{ gcp.project }} --region {{ gcp.region }} > /dev/null 2>&1; then
     gcloud beta run jobs create {{ cloudrun_job_id }} \
     --image docker.io/toransahu/cloudrun-job:latest \
@@ -92,7 +97,7 @@
   changed_when: "'job created' in create_cloudrun_job_res.stdout"
 
 - name: Schedule Cloud Run Job if not already exists
-  shell: |
+  ansible.builtin.shell: |
     if ! gcloud scheduler describe {{ cloudrun_job_id }}-schedule-job --project {{ gcp.project }} --location {{ gcp.region }} > /dev/null 2>&1; then
       gcloud scheduler jobs create http {{ cloudrun_job_id }}-schedule-job \
         --location={{ gcp.region }} \

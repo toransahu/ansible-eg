@@ -1,7 +1,7 @@
 ---
 
 - name: GCP Sample
-  import_tasks: sample.yml
+  ansible.builtin.import_tasks: sample.yml
 
 - name: Deploy cloudrun job
-  import_tasks: cloudrun_job.yml
+  ansible.builtin.import_tasks: cloudrun_job.yml
