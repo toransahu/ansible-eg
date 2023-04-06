@@ -8,6 +8,8 @@
 $ python3 -m pip install --user ansible
 ```
 
+- https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
 # Inventory
 
 - [How to build inventory](https://docs.ansible.com/ansible/latest/getting_started/get_started_inventory.html#get-started-inventory)
@@ -79,6 +81,7 @@ vm01 | SUCCESS => {
 - [Creating a Playbook](https://docs.ansible.com/ansible/latest/getting_started/get_started_playbook.html#get-started-playbook)
 - [Working with Playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks.html#working-with-playbooks)
 - [Reusing Playbooks](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html#re-using-playbooks)
+- [Organize into directory](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html#organizing-inventory-in-a-directory)
 
 
 Playbooks are automation blueprints, in YAML format, that Ansible uses to deploy and configure managed nodes.
@@ -161,7 +164,13 @@ vm03: ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0  
     - Mentioning roles
     - vs Dynamically including/improting roles (this is done through tasks)
 
-# GCP
+# Plugins
+
+## Lookup
+
+- https://docs.ansible.com/ansible/latest/plugins/lookup.html
+
+## GCP
 
 ```bash
 $ ansible-playbook -i inventory/ playbook/gcp.yml
@@ -189,3 +198,12 @@ localhost                  : ok=2    changed=2    unreachable=0    failed=0    s
 - [Basic Concepts](https://docs.ansible.com/ansible/latest/getting_started/basic_concepts.html)
 - [Playbook Keywords](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 - [GCP Module](https://docs.ansible.com/ansible/latest/scenario_guides/guide_gce.html)
+    - https://github.com/ansible-collections/google.cloud/blob/master/plugins/modules/
+- [Ansible Lint](https://www.redhat.com/sysadmin/ansible-lint-YAML)
+- [Anisble Language Server for Vim](https://github.com/yaegassy/coc-ansible)
+- Ansible GCP Inventory Management
+    - https://devopsartisan.ro.digital/blog/ansible-google-cloud-platform
+    - TODO
+        - https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html
+        - https://devopscube.com/ansible-dymanic-inventry-google-cloud/
+        - https://medium.com/devops-dudes/how-to-create-dynamic-inventory-in-gcp-using-ansible-d8dc5739da28
