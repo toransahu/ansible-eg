@@ -1,0 +1,9 @@
+---
+
+- name: Local debugging playbook
+  hosts: localhost
+  vars:
+    temp: 1
+  roles:
+    - local
+  tags: [local]

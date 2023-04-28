@@ -1,0 +1,20 @@
+- name: Ping my hosts
+  ansible.builtin.ping:
+
+- name: Print messsage
+  ansible.builtin.debug:
+    msg: Hello World
+  tags:
+    - never
+    - toran
+
+- name: Set some vars & facts
+  ansible.builtin.set_fact:
+    args: >
+      -n 1
+
+- name: Run some shell command
+  ansible.builtin.command: >
+    git log {{ args }}
+      --author "toran"
+  changed_when: false
